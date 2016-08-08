@@ -7,12 +7,14 @@ import com.google.sitebricks.Evaluator;
 import com.google.sitebricks.Visible;
 import com.google.sitebricks.conversion.generics.Generics;
 import com.google.sitebricks.conversion.generics.ParameterizedTypeImpl;
+
 import org.jetbrains.annotations.Nullable;
 import org.mvel2.CompileException;
 import org.mvel2.MVEL;
 import org.mvel2.ParserContext;
 import org.mvel2.compiler.CompiledExpression;
 import org.mvel2.compiler.ExpressionCompiler;
+import org.owasp.encoder.Encode;
 
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -92,11 +94,21 @@ public class MvelEvaluatorCompiler implements EvaluatorCompiler {
 
     //do *not* inline
     final CompiledExpression compiled = compileExpression(expression);
-
+    final boolean raw = expression!=null && expression.startsWith("raw:");
+    if(raw){
+    	expression = expression.substring(4);
+    }
     return new Evaluator() {
       @Nullable
       public Object evaluate(String expr, Object bean) {
-        return MVEL.executeExpression(compiled, bean);
+      	if(raw){
+      		return MVEL.executeExpression(compiled, bean);
+      	}
+        Object result = MVEL.executeExpression(compiled, bean);
+        if(result instanceof String){
+        	result = Encode.forHtml((String)result);
+        }
+        return result;
       }
 
       public void write(String expr, Object bean, Object value) {
