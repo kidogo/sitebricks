@@ -44,6 +44,12 @@ public class StringToPrimitiveConverters {
         return source.charAt(0);
       }
     });
+    converters.add(new ConverterAdaptor<String, Boolean>() {
+      public Boolean to(String source) {
+        return "on".equals(source) || Boolean.valueOf(source);
+      }
+    });
+
 
     return converters;
   }
