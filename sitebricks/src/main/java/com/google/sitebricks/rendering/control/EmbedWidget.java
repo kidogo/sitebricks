@@ -54,7 +54,7 @@ class EmbedWidget implements Renderable {
     }
 
     //chain to embedded page (widget), with arguments
-    EmbeddedRespond embed = factory.get(arguments);
+    EmbeddedRespond embed = factory.get(pageObject, arguments);
 
     Request req = request.get();
     try {

@@ -80,6 +80,11 @@
       <artifactId>validation-api</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>org.owasp.encoder</groupId>
+      <artifactId>encoder</artifactId>
+      <version>1.2.1</version>
+    </dependency>
     <!-- provided deps -->
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -117,6 +122,6 @@
       <name>Nexus OSS Staging Repository</name>
       <url> https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
-  </distributionManagement> 
+  </distributionManagement>
 
 </project>
